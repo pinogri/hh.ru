@@ -7,6 +7,9 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from multiprocessing import Pool
 
+headers = {'accept': '*/*',
+           'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36'}
+
 def get_html(url):
     r = requests.get(url)  # Response
     return r.text  # Возвращает HTML код страницы (url)
