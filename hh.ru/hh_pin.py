@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
+from datetime import datetime
+
 headers = {'accept': '*/*',
            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36'}
 
@@ -10,7 +12,8 @@ def hh_parse(base_url, headers):
     session = requests.session()
     request = session.get(base_url, headers=headers)
     if request.status_code == 200:
-        soup = bs(request.content, 'html.parser')
+        start = datetime.now()
+        soup = bs(request.content, 'lxml')
         divs = soup.find_all('div', class_='vacancy-serp-item' )
         for div in divs:
             title = div.find('a', attrs={'data-qa': 'vacancy-serp__vacancy-title'}).text 
@@ -24,8 +27,10 @@ def hh_parse(base_url, headers):
                          'Content': all_inf,
                          'href': href
                          })
-
+        finish = datetime.now()
+        result = finish - start
         print(len(jobs))
+        print(result)
     else:
         print("ERROR")
 
